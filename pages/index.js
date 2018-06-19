@@ -5,6 +5,7 @@ const defaultState = {
   nextMove: 'x',
   numMoves: 0,
   hasWinner: false,
+  winner: '',
   a1: null,
   a2: null,
   a3: null,
@@ -64,8 +65,7 @@ export default class extends React.Component {
           this.state[`${row}1`] === this.state[`${row}2`] &&
           this.state[`${row}1`] === this.state[`${row}3`]
         ) {
-          console.log(this.state[`${row}1`], ' is a winner!');
-          this.setState({ hasWinner: true });
+          this.handleWinner(this.state[`${row}1`]);
         }
       });
 
@@ -76,8 +76,7 @@ export default class extends React.Component {
           this.state[`a${col}`] === this.state[`b${col}`] &&
           this.state[`a${col}`] === this.state[`c${col}`]
         ) {
-          console.log(this.state[`a${col}`], ' is a winner!');
-          this.setState({ hasWinner: true });
+          this.handleWinner(this.state[`a${col}`]);
         }
       });
 
@@ -87,8 +86,7 @@ export default class extends React.Component {
         this.state.a1 === this.state.b2 &&
         this.state.a1 === this.state.c3
       ) {
-        console.log(this.state.a1, ' is a winner!');
-        this.setState({ hasWinner: true });
+        this.handleWinner(this.state.a1);
       }
 
       if (
@@ -96,10 +94,16 @@ export default class extends React.Component {
         this.state.a3 === this.state.b2 &&
         this.state.a3 === this.state.c1
       ) {
-        console.log(this.state.a3, ' is a winner!');
-        this.setState({ hasWinner: true });
+        this.handleWinner(this.state.a3);
       }
     }
+  }
+
+  handleWinner(winner) {
+    this.setState({
+      hasWinner: true,
+      winner
+    });
   }
 
   resetGame() {
@@ -167,6 +171,11 @@ export default class extends React.Component {
         <button className="reset-game" onClick={this.resetGame.bind(this)}>
           Reset Game
         </button>
+        <div className="game-winner">
+          {this.state.hasWinner
+            ? `${this.state.winner.toUpperCase()} has won!`
+            : ''}
+        </div>
         <style jsx>{`
           .app-body {
             font-family: 'Source Sans Pro', 'Lucida Grande', sans-serif;
@@ -178,7 +187,7 @@ export default class extends React.Component {
           td {
             height: 200px;
             width: 200px;
-            font-size: 100px;
+            font-size: 50px;
             text-align: center;
           }
           .row1 {
@@ -200,6 +209,9 @@ export default class extends React.Component {
             height: 30px;
             font-size: 16px;
             margin-top: 20px;
+          }
+          .game-winner {
+            margin-top: 15px;
           }
         `}</style>
       </div>
