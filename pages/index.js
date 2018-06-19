@@ -107,8 +107,9 @@ export default class extends React.Component {
   }
 
   render() {
+    const border = '5px solid #E7712E';
     return (
-      <div>
+      <div className="app-body">
         <Head>
           <title>Tic Tac Toe</title>
           <link
@@ -122,7 +123,11 @@ export default class extends React.Component {
           />
         </Head>
         <h1>Let's play a game of Tictactoe!</h1>
-        <table className="game-board" onClick={this.handleClick.bind(this)}>
+        <table
+          className="game-board"
+          cellspacing="0"
+          onClick={this.handleClick.bind(this)}
+        >
           <tbody>
             <tr className="game-board-row game-board-row1">
               <td className="a1 row1 col1" data-cell="a1">
@@ -163,21 +168,38 @@ export default class extends React.Component {
           Reset Game
         </button>
         <style jsx>{`
+          .app-body {
+            font-family: 'Source Sans Pro', 'Lucida Grande', sans-serif;
+            width: 100%;
+            max-width: 600px;
+            margin: 0 auto;
+            text-align: center;
+          }
           td {
-            height: 20px;
-            width: 20px;
+            height: 200px;
+            width: 200px;
+            font-size: 100px;
+            text-align: center;
           }
           .row1 {
-            border-bottom: 1px solid black;
+            border-bottom: ${border};
           }
           .row3 {
-            border-top: 1px solid black;
+            border-top: ${border};
           }
           .col1 {
-            border-right: 1px solid black;
+            border-right: ${border};
           }
           .col3 {
-            border-left: 1px solid black;
+            border-left: ${border};
+          }
+          .reset-game {
+            background-color: #e7712e;
+            color: white;
+            width: 100%;
+            height: 30px;
+            font-size: 16px;
+            margin-top: 20px;
           }
         `}</style>
       </div>
