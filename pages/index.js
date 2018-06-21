@@ -2,7 +2,7 @@ import Head from 'next/head';
 import React from 'react';
 
 const defaultState = {
-  nextMove: 'x',
+  nextMove: 'X',
   numMoves: 0,
   hasWinner: false,
   winner: '',
@@ -17,7 +17,7 @@ const defaultState = {
   c3: null
 };
 
-export default class extends React.Component {
+export default class TicTacToe extends React.Component {
   constructor(props) {
     super(props);
     this.state = Object.assign({}, defaultState);
@@ -43,7 +43,7 @@ export default class extends React.Component {
     this.setState(
       {
         [cell]: this.state.nextMove,
-        nextMove: this.state.nextMove === 'x' ? 'o' : 'x',
+        nextMove: this.state.nextMove === 'X' ? 'O' : 'X',
         numMoves: (this.state.numMoves += 1)
       },
       () => {
@@ -65,7 +65,7 @@ export default class extends React.Component {
           this.state[`${row}1`] === this.state[`${row}2`] &&
           this.state[`${row}1`] === this.state[`${row}3`]
         ) {
-          this.handleWinner(this.state[`${row}1`]);
+          this.setWinner(this.state[`${row}1`]);
         }
       });
 
@@ -76,7 +76,7 @@ export default class extends React.Component {
           this.state[`a${col}`] === this.state[`b${col}`] &&
           this.state[`a${col}`] === this.state[`c${col}`]
         ) {
-          this.handleWinner(this.state[`a${col}`]);
+          this.setWinner(this.state[`a${col}`]);
         }
       });
 
@@ -86,7 +86,7 @@ export default class extends React.Component {
         this.state.a1 === this.state.b2 &&
         this.state.a1 === this.state.c3
       ) {
-        this.handleWinner(this.state.a1);
+        this.setWinner(this.state.a1);
       }
 
       if (
@@ -94,20 +94,17 @@ export default class extends React.Component {
         this.state.a3 === this.state.b2 &&
         this.state.a3 === this.state.c1
       ) {
-        this.handleWinner(this.state.a3);
+        this.setWinner(this.state.a3);
       }
     }
   }
 
-  handleWinner(winner) {
-    this.setState({
-      hasWinner: true,
-      winner
-    });
+  setWinner(winner) {
+    this.setState({ winner });
   }
 
   resetGame() {
-    this.setState(defaultState, () => this.updateSessionstorage);
+    this.setState(defaultState, () => this.updateSessionstorage());
   }
 
   render() {
@@ -116,11 +113,7 @@ export default class extends React.Component {
       <div className="app-body">
         <Head>
           <title>Tic Tac Toe</title>
-          <link
-            href="data:image/x-icon;base64,AAABAAEAEBAQAAEABAAoAQAAFgAAACgAAAAQAAAAIAAAAAEABAAAAAAAgAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA/4QAAP///wAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEREREREREREREiIiIiIhEREiIiIiIiIREiICIiAiIiESIgAiIAIiIRIAAAAAAAIhEgAAAAAAAiESIgACIAIiIRIiIAIgACIhEiAAAAAAACESIAAAAAAAIRIiIAIiACIhEiIiAiIgIiERIiIiIiIiERESIiIiIiEREREREREREREAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA"
-            rel="icon"
-            type="image/x-icon"
-          />
+          <link href="/static/favicon.ico" rel="icon" type="image/x-icon" />
           <meta
             name="viewport"
             content="initial-scale=1.0, width=device-width"
@@ -129,41 +122,41 @@ export default class extends React.Component {
         <h1>Let's play a game of Tictactoe!</h1>
         <table
           className="game-board"
-          cellspacing="0"
+          cellSpacing="0"
           onClick={this.handleClick.bind(this)}
         >
           <tbody>
             <tr className="game-board-row game-board-row1">
               <td className="a1 row1 col1" data-cell="a1">
-                {this.state.a1 && this.state.a1.toUpperCase()}
+                {this.state.a1}
               </td>
               <td className="a2 row1 col2" data-cell="a2">
-                {this.state.a2 && this.state.a2.toUpperCase()}
+                {this.state.a2}
               </td>
               <td className="a3 row1 col3" data-cell="a3">
-                {this.state.a3 && this.state.a3.toUpperCase()}
+                {this.state.a3}
               </td>
             </tr>
             <tr className="game-board-row game-board-row2">
               <td className="b1 row2 col1" data-cell="b1">
-                {this.state.b1 && this.state.b1.toUpperCase()}
+                {this.state.b1}
               </td>
               <td className="b2 row2 col2" data-cell="b2">
-                {this.state.b2 && this.state.b2.toUpperCase()}
+                {this.state.b2}
               </td>
               <td className="b3 row2 col3" data-cell="b3">
-                {this.state.b3 && this.state.b3.toUpperCase()}
+                {this.state.b3}
               </td>
             </tr>
             <tr className="game-board-row game-board-row2">
               <td className="c1 row3 col1" data-cell="c1">
-                {this.state.c1 && this.state.c1.toUpperCase()}
+                {this.state.c1}
               </td>
               <td className="c2 row3 col2" data-cell="c2">
-                {this.state.c2 && this.state.c2.toUpperCase()}
+                {this.state.c2}
               </td>
               <td className="c3 row3 col3" data-cell="c3">
-                {this.state.c3 && this.state.c3.toUpperCase()}
+                {this.state.c3}
               </td>
             </tr>
           </tbody>
@@ -172,7 +165,7 @@ export default class extends React.Component {
           Reset Game
         </button>
         <div className="game-winner">
-          {this.state.hasWinner
+          {this.state.winner
             ? `${this.state.winner.toUpperCase()} has won!`
             : ''}
         </div>
